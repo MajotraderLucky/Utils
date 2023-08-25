@@ -5,7 +5,11 @@ import (
 	"os"
 )
 
-func createLogsDirectory() error {
+type Logger struct {
+	logFile *os.File
+}
+
+func (l *Logger) CreateLogsDir() error {
 	err := os.MkdirAll("logs", 0755)
 	if err != nil {
 		return err
@@ -13,18 +17,19 @@ func createLogsDirectory() error {
 	return nil
 }
 
-func openLogFile() (*os.File, error) {
+func (l *Logger) OpenLogFile() error {
 	logFile, err := os.OpenFile("logs/log.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return logFile, nil
+	l.logFile = logFile
+	return nil
 }
 
-func setLogger(logFile *os.File) {
-	log.SetOutput(logFile)
+func (l *Logger) SetLogger() {
+	log.SetOutput(l.logFile)
 }
 
-func logLine() {
-	log.Println("---------------------------------------------------")
+func (l *Logger) LogLine() {
+	log.Println("-------------------------------------------------------")
 }

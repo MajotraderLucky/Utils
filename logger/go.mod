@@ -1,4 +1,4 @@
-module logger
+module github.com/MajotraderLucky/Utils/logger
 
 go 1.20
 

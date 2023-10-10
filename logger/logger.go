@@ -60,3 +60,33 @@ func (l *Logger) CleanLog() {
 		}
 	}
 }
+
+func (l *Logger) CleanLogCountLines(n int) {
+	// Read the file contents log.txt
+	data, err := os.ReadFile("logs/log.txt")
+	if err != nil {
+		log.Println(err)
+	}
+	// Split the content into lines
+	lines := strings.Split(string(data), "\n")
+
+	// Check the number of lines
+	if len(lines) > n {
+		// Open a file log.txt in overwrite mode
+		logFile, err := os.OpenFile("logs/log.txt", os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+		// Close the file
+		defer logFile.Close()
+
+		// Write the last n lines to log.txt
+		startIndex := len(lines) - n
+		if startIndex < 0 {
+			startIndex = 0
+		}
+		for _, line := range lines[startIndex:] {
+			logFile.WriteString(line + "\n")
+		}
+	}
+}

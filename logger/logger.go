@@ -7,7 +7,7 @@ import (
 )
 
 type Logger struct {
-	logFile *os.File
+	LogFile *os.File
 }
 
 func (l *Logger) CreateLogsDir() error {
@@ -23,12 +23,12 @@ func (l *Logger) OpenLogFile() error {
 	if err != nil {
 		return err
 	}
-	l.logFile = logFile
+	l.LogFile = logFile
 	return nil
 }
 
 func (l *Logger) SetLogger() {
-	log.SetOutput(l.logFile)
+	log.SetOutput(l.LogFile)
 }
 
 func (l *Logger) LogLine() {
